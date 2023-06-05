@@ -1,0 +1,38 @@
+.btn-primary {
+    color: #fff;
+    background-color: #ff1493;
+    border-color: #ff1493;
+} 
+
+.btn-primary:hover, .btn-primary:focus, 
+.btn-primary:active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary:active.focus,
+.btn-primary.active, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary.active.focus,
+.open > .dropdown-toggle.btn-primary, 
+.open > .dropdown-toggle.btn-primary:hover,
+.open > .dropdown-toggle.btn-primary:focus, 
+.open > .dropdown-toggle.btn-primary.focus,
+.btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled.focus, .btn-primary[disabled].focus, fieldset[disabled] .btn-primary.focus {
+    background: #ff69b4;
+    color: #fff;
+    border-color: #ff1493;
+}
+
+
+.flex_box {
+    display: flex;
+}
+
+.form-select {
+    border-color: #ff1493;
+    color: grey;
+}
+
+.form-select:focus {
+    color: grey;
+    border-color: #ff1493;
+    /* box-shadow: none; */
+    /* -moz-box-shadow: none; */
+    -webkit-box-shadow: 0 0 5px #ff1493;
+}

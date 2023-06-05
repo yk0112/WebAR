@@ -1,0 +1,123 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang = "ja">
+<head>
+  <title>{{title}}</title>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'WebAR/css/style.css' %}" />
+</head>
+<body>
+
+    <nav class="navbar m-3 w-80 rounded-3 shadow navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="./markerbase"><h2>WebAR</h2></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="#" style="color: #ff1493;">Marker Based</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Location Based</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./add">Add images</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
+
+     <form class="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="flex_box">
+      <div class="d-grid gap-3 m-3 w-50">
+        <div class="card rounded-3 shadow">
+          <div class="card-body">
+            <h5 class="card-title text-dark">Step 1</h5>
+            <p class="card-text text-secondary">Please select a 3D image in your collections</p>
+            <!-- <select class="form-select" aria-label="3Dcontents">
+              <option selected>Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select> -->
+            {{form.image | add_class:"form-select"}}
+          </div>
+        </div>
+
+        <div class="card rounded-3 shadow">
+          <div class="card-body">
+            <h5 class="card-title text-dark">Step 2</h5>
+            <p class="card-text text-secondary">Specify the size of the image to display</p>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item"><a class="btn btn-primary" onclick="SizeDown()">-</a></li>
+                <li class="page-item"><a class="page-link" id="counter">5</a></li>
+                <li class="page-item"><a class="btn btn-primary" onclick="SizeUp()">+</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div class="card rounded-3 shadow">
+          <div class="card-body">
+            <h5 class="card-title text-dark">Step 3</h5>
+            <p class="card-text text-secondary">Generate a QR code to use as a marker</p>
+            <a href="#" class="btn btn-primary">SELECT</a>
+          </div>
+        </div>
+
+        <div class="card rounded-3 shadow">
+          <div class="card-body">
+            <h5 class="card-title text-dark">Step 4</h5>
+            <p class="card-text text-secondary">Show your 3D image!</p>
+            <a href="#" class="btn btn-primary">START</a>
+          </div>
+        </div>
+      </div>
+
+     </form>
+     
+     <div  class="img-fluid w-40 h-50" style="margin-top: 100px; margin-left: 150px;">
+       <img src="https://thumb.ac-illust.com/73/7387030e5a5600726e5309496353969a_t.jpeg"  class="img-fluid"  alt="...">
+       <p class="text-secondary">You have not selected an image</p> 
+     </div> 
+    
+    </div>
+      
+    <!-- </div> -->
+
+     
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+      let size = 5;
+      function SizeDown() {
+        if(size != 1) {
+        size--;
+        counter.innerHTML = size;
+        }
+      }
+      function SizeUp() {
+        if(size != 10) {
+          size++;
+          counter.innerHTML = size;
+        }  
+      }
+
+      // window.addEventListener("load", ()=>{
+      //  // 起動時の処理
+      //   counter = document.getElementById("counter");
+      //   btnAdd = document.getElementById("btnAdd");
+      //   size = 5;
+      //   btnAdd.addEventListener("click", addCount);
+      // });
+    </script>
+  </body>
+</html>
