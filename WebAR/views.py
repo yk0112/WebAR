@@ -16,14 +16,18 @@ def camera(request):
 
 @login_required(login_url='/admin/login')
 def mb(request):
-   # if(request.method == 'POST'): 
-   #    return 0
-   # else:
-   #    imageform = 
-   params = {
-      'form': ImageSelectForm(request.user), 
-   }         
-   return render(request, 'WebAR/mb.html', params)
+   if(request.method == 'POST'): 
+      params = {
+       'image': request.POST.get('image'),
+       'size': request.POST.get('size'),
+       'pattURL': request.POST.get('pattURL'),
+      }
+      return render(request, 'WebAR/camera.html', params)
+   else:
+      params = {
+       'form': ImageSelectForm(request.user), 
+      }         
+      return render(request, 'WebAR/mb.html', params)
 
 @login_required(login_url='/admin/login')
 def add(request):

@@ -22,7 +22,7 @@
             <a-assets>
                 <a-asset-item
                     id="animated-asset"
-                    src="{% static 'WebAR/asset2.gltf' %}"     
+                    src="media/{{image}}"
             ></a-asset-item>
             </a-assets>
 
@@ -30,7 +30,7 @@
                 id="animated-marker"
                 type="pattern"
                 preset="custom"
-                url="{% static 'WebAR/marker.patt' %}" 
+                url="media/uploads/2023/06/14/marker.patt"
                 raycaster="objects: .clickable"
                 emitevents="true"
                 cursor="fuse: false; rayOrigin: mouse;"
@@ -38,7 +38,7 @@
             >
                 <a-entity
                     id="bowser-model"
-                    scale="1 1 1"
+                    scale="{{size}} {{size}} {{size}}"
                     animation-mixer="loop: repeat"
                     gltf-model="#animated-asset"
                     class="clickable"
@@ -49,4 +49,5 @@
             <a-entity camera></a-entity>
         </a-scene>
     </body>
+      
 </html>
