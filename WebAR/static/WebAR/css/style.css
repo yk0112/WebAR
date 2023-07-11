@@ -24,15 +24,9 @@
     display: flex;
 }
 
-.form-select {
-    border-color: #ff1493;
-    color: grey;
+.map {
+    width: 100%;
+    height: 400px;
+    background-color: grey;
 }
-
-.form-select:focus {
-    color: grey;
-    border-color: #ff1493;
-    /* box-shadow: none; */
-    /* -moz-box-shadow: none; */
-    -webkit-box-shadow: 0 0 5px #ff1493;
-}
+  

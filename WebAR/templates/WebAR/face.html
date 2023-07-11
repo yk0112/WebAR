@@ -1,0 +1,552 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <title>{{title}}</title>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'WebAR/css/style.css' %}" />
+  <script src='../../static/WebAR/js/threex-arpatternfile.js'></script>
+</head>
+
+<body>
+
+  <nav class="navbar m-3 w-80 rounded-3 shadow navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="./markerbase">
+        <h2>WebAR</h2>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="./markerbase">Marker Based</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./locationbase">Location Based</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./face" style="color: #ff1493;">Face Tracking</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Setting
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="./add">Add images</a></li>
+              <li><a class="dropdown-item" href="./delete">Delete images</a></li>
+            </ul>
+          </li>
+        </ul>
+        <p style="color: white; margin-right: 20px; margin-top: 13px;">user : {{username}}</p>
+      </div>
+    </div>
+  </nav>
+
+  {% for message in messages %}
+  {% if message.tags %}
+  <div class="{{ message.tags }} m-3 w-50 alert-dismissible fade show" role="alert" width="20">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="閉じる"></button>
+    <strong>{{ message }}</strong>
+  </div>
+  {% endif %}
+  {% endfor %}
+
+  <div class="d-grid gap-3 m-3" style="width: 80%;">
+
+    <div class="card rounded-3 shadow" style="width: 70%; margin-top: 1rem;">
+      <div class="card-body">
+        <h5 class="card-title text-dark">Step 1</h5>
+        <p class="card-text text-secondary">Please select a 3D image in your collections. You can display up to 5 images
+          simultaneously.<br>
+          You can make detailed adjustments to each of the 3D images displayed.</p>
+
+
+        <form id="post" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <!-- item1 -->
+          <div class="d-grid gap-3 m-3 shadow" id="item1" style="width: 75%; position: relative; left: -17px;">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOnes"
+                  style="background-color: #696969">
+                  <div class="flex_box">
+                    <div style="color: white;">3D image #1</div>
+                    <h4 style="color: white;  position: relative;
+                  top: -7px;
+                  left: 460px;
+                  margin-bottom: -10px;">+</h4>
+                  </div>
+                </button>
+              </h2>
+
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">3D image</p>
+                  <div style="margin-left: 10px;">
+                    {{form1.image | add_class:"form-select form-control"}}
+                  </div>
+                </div>
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Rotation</p>
+                  <div class="flex_box" style="margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : </h6>
+                    <input type="text" id="item1_rotateX" name="item1_rotateX" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> y-axis : </h6>
+                    <input type="text" id="item1_rotateY" name="item1_rotateY" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> z-axis : </h6>
+                    <input type="text" id="item1_rotateZ" name="item1_rotateZ" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Position</p>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : <span id="item1_posiX_value">0</span></h6>
+                    <input type="range" class="form-range range-cust range-cust" id= "item1_positionX"  name="item1_positionX" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> y-axis : <span id="item1_posiY_value">0</span></h6>
+                    <input type="range" class="form-range range-cust"  id= "item1_positionY" name="item1_positionY" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> z-axis : <span id="item1_posiZ_value">0</span></h6>
+                    <input type="range" class="form-range range-cust"   id= "item1_positionZ" name="item1_positionZ" min="-1" max="1"
+                      step="0.01" name="size">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Scale</p> <span id="item1_scale_value">0</span>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <input type="range" class="form-range range-cust" id="item1_scale" name="item1_scale" min="0" max="1" step="0.01"
+                      name="size">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- item2 -->
+          <div class="d-grid gap-3 m-3 shadow" id="item2"
+            style="width: 75%; position: relative; left: -17px;  display: none !important;">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwos"
+                  style="background-color: #696969">
+                  <div class="flex_box">
+                    <div style="color: white;">3D image #2</div>
+                    <h4 style="color: white;  position: relative;
+                  top: -7px;
+                  left: 460px;
+                  margin-bottom: -10px;">+</h4>
+                  </div>
+                </button>
+              </h2>
+
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">3D image</p>
+                  <div style="margin-left: 10px;">
+                    {{form2.image | add_class:"form-select form-control"}}
+                  </div>
+                </div>
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Rotation</p>
+                  <div class="flex_box" style="margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : </h6>
+                    <input type="text" id="item1_rotateX" name="item2_rotateX" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> y-axis : </h6>
+                    <input type="text" id="item1_rotateY" name="item2_rotateY" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> z-axis : </h6>
+                    <input type="text" id="item1_rotateZ" name="item2_rotateZ" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Position</p>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : <span id="item2_posiX_value">0</span></h6>
+                    <input type="range" class="form-range range-cust range-cust" id="item2_positionX" name="item2_positionX" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> y-axis : <span id="item2_posiY_value">0</span></h6>
+                    <input type="range" class="form-range range-cust" id="item2_positionY" name="item2_positionY" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> z-axis : <span id="item2_posiZ_value">0</span></h6>
+                    <input type="range" class="form-range range-cust" id="item2_positionZ" name="item2_positionZ" min="-1" max="1"
+                      step="0.01" name="size">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Scale</p> <span id="item2_scale_value">0</span>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <input type="range" class="form-range range-cust" id="item2_scale"  name="item2_scale" min="0" max="1" step="0.01"
+                      name="size">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- item3 -->
+          <div class="d-grid gap-3 m-3 shadow" id="item3"
+            style="width: 75%; position: relative; left: -17px;  display: none !important;">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThrees"
+                  style="background-color: #696969">
+                  <div class="flex_box">
+                    <div style="color: white;">3D image #3</div>
+                    <h4 style="color: white;  position: relative;
+                  top: -7px;
+                  left: 460px;
+                  margin-bottom: -10px;">+</h4>
+                  </div>
+                </button>
+              </h2>
+
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">3D image</p>
+                  <div style="margin-left: 10px;">
+                    {{form3.image | add_class:"form-select form-control"}}
+                  </div>
+                </div>
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Rotation</p>
+                  <div class="flex_box" style="margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : </h6>
+                    <input type="text" id="item1_rotateX" name="item3_rotateX" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> y-axis : </h6>
+                    <input type="text" id="item1_rotateY" name="item3_rotateY" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> z-axis : </h6>
+                    <input type="text" id="item1_rotateZ" name="item3_rotateZ" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Position</p>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : <span id="item3_posiX_value">0</span></h6>
+                    <input type="range" class="form-range range-cust range-cust" id="item3_positionX" name="item3_positionX" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> y-axis : <span id="item3_posiY_value">0</span></h6>
+                    <input type="range" class="form-range range-cust" id="item3_positionY" name="item3_positionY" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> z-axis : <span id="item3_posiZ_value">0</span></h6>
+                    <input type="range" class="form-range range-cust" id="item3_positionZ" name="item3_positionZ" min="-1" max="1"
+                      step="0.01" name="size">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Scale</p> <span id="item3_scale_value">0</span>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <input type="range" class="form-range range-cust" id= "item3_scale" name="item3_scale" min="-1" max="1" step="0.01"
+                      name="size">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- item4 -->
+          <div class="d-grid gap-3 m-3 shadow" id="item4"
+            style="width: 75%; position: relative; left: -17px;  display: none !important;">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFours"
+                  style="background-color: #696969">
+                  <div class="flex_box">
+                    <div style="color: white;">3D image #4</div>
+                    <h4 style="color: white;  position: relative;
+                  top: -7px;
+                  left: 460px;
+                  margin-bottom: -10px;">+</h4>
+                  </div>
+                </button>
+              </h2>
+
+              <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">3D image</p>
+                  <div style="margin-left: 10px;">
+                    {{form4.image | add_class:"form-select form-control"}}
+                  </div>
+                </div>
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Rotation</p>
+                  <div class="flex_box" style="margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : </h6>
+                    <input type="text" id="item1_rotateX" name="item4_rotateX" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> y-axis : </h6>
+                    <input type="text" id="item1_rotateY" name="item4_rotateY" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> z-axis : </h6>
+                    <input type="text" id="item1_rotateZ" name="item4_rotateZ" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Position</p>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : <span id="item4_posiX_value">0</span></h6>
+                    <input type="range" class="form-range range-cust range-cust" id="item4_positionX" name="item4_positionX" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> y-axis : <span id="item4_posiY_value">0</span></h6>
+                    <input type="range" class="form-range range-cust" id="item4_positionY" name="item4_positionY" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> z-axis : <span id="item4_posiZ_value">0</span></h6>
+                    <input type="range" class="form-range range-cust" id="item4_positionZ" name="item4_positionZ" min="-1" max="1"
+                      step="0.01" name="size">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Scale</p> <span id="item4_scale_value">0</span>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <input type="range" class="form-range range-cust" id="item4_scale" name="item4_scale" min="-1" max="1" step="0.01"
+                      name="size">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- item5 -->
+          <div class="d-grid gap-3 m-3 shadow" id="item5"
+            style="width: 75%; position: relative; left: -17px;  display: none !important;">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFives"
+                  style="background-color: #696969">
+                  <div class="flex_box">
+                    <div style="color: white;">3D image #5</div>
+                    <h4 style="color: white;  position: relative;
+                  top: -7px;
+                  left: 460px;
+                  margin-bottom: -10px;">+</h4>
+                  </div>
+                </button>
+              </h2>
+
+              <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">3D image</p>
+                  <div style="margin-left: 10px;">
+                    {{form5.image | add_class:"form-select form-control"}}
+                  </div>
+                </div>
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Rotation</p>
+                  <div class="flex_box" style="margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : </h6>
+                    <input type="text" id="item1_rotateX" name="item5_rotateX" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> y-axis : </h6>
+                    <input type="text" id="item1_rotateY" name="item5_rotateY" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+
+                    <h6 style="margin-right: 5px; margin-top: 5px; margin-left: 5px"> z-axis : </h6>
+                    <input type="text" id="item1_rotateZ" name="item5_rotateZ" class="form-control"
+                      style="width: 20%; margin-right: 10px;" value="0">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Position</p>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> x-axis : <span id="item5_posiX_value">0</span></h6>
+                    <input type="range" class="form-range range-cust range-cust" id="item5_positionX" name="item5_positionX" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> y-axis : <span id="item5_posiY_value">0</span></h6>
+                    <input type="range" class="form-range range-cust" id="item5_positionY" name="item5_positionY" min="-1" max="1"
+                      step="0.01" name="size">
+                    <h6 style="margin-right: 5px; margin-top: 5px;"> z-axis : <span id="item5_posiZ_value">0</span></h6>
+                    <input type="range" class="form-range range-cust" id="item5_positionZ" name="item5_positionZ" min="-1" max="1"
+                      step="0.01" name="size">
+                  </div>
+                </div>
+
+                <div class="accordion-body">
+                  <p class="card-text text-secondary">Scale</p> <span id="item5_scale_value">0</span>
+                  <div style="width: 70%; margin-left: 10px;">
+                    <input type="range" class="form-range range-cust" id="item5_scale" name="item5_scale" min="0" max="1" step="0.01"
+                      name="size">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </form>
+
+        <div class="flex_box" style="margin-top: 50px;">
+          <div>
+            <button id="add-item" class="flex_box" style="border:none; background-color: white;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                class="bi bi-plus-square" viewBox="0 0 16 16" color="#ff1493">
+                <path
+                  d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+              </svg>
+              <h5 style="margin-left: 8px; margin-top: 1px;"> Add a 3D image</h5>
+            </button>
+          </div>
+
+          <div>
+            <button id="delete-item" class="flex_box" style="border:none; background-color: white;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash"
+                viewBox="0 0 16 16" color="#ff1493" style="margin-left: 20px;">
+                <path
+                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                <path fill-rule="evenodd"
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+              </svg>
+              <h5 style="margin-left: 8px; margin-top: 1px;"> Delete a 3D image</h5>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card rounded-3 shadow" style="width: 70%">
+      <div class="card-body">
+        <h5 class="card-title text-dark">Step 2</h5>
+        <p class="card-text text-secondary">Show your 3D image!</p>
+        <input type="hidden" id="item_count" name="item_count" value="1">
+        <button type="submit" class="btn btn-primary">START</button>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src='../../static/WebAR/js/face_style.js'></script>
+
+  <script>
+
+   
+
+  </script>
+
+</body>
+<style>
+  .form-control:focus {
+    border-color: #ff1493;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #ff1493;
+  }
+
+  .accordion-button::after {
+    background-image: initial;
+    width: 0;
+  }
+
+  .accordion-button:not(.collapsed)::after {
+    background-image: initial;
+    width: 0;
+  }
+
+  .range-cust::-webkit-slider-thumb {
+    outline: none;
+    background: #ff1493;
+  }
+
+  .range-cust::-moz-range-thumb {
+    outline: none;
+    background: #ff1493;
+  }
+
+  .range-cust::-ms-thumb {
+    outline: none;
+    background: #ff1493;
+  }
+
+  .range-cust::-ms-thumb {
+    outline: none;
+    background: #ff1493;
+  }
+
+  .my-parts {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    /* box-shadow: 0 0 0 1px rgba(0,0,0,.1); */
+    cursor: pointer;
+  }
+
+  .my-parts span::before,
+  .my-parts span::after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 84%;
+    height: 16%;
+    margin: -8% 0 0 -42%;
+    background: #ff1493;
+  }
+
+  .my-parts span::after {
+    transform: rotate(90deg);
+  }
+</style>
+
+</html>

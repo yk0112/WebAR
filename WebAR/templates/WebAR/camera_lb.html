@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  </head>
+
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      vr-mode-ui="enabled: false;"
+      loading-screen="enabled: false;"
+      renderer="logarithmicDepthBuffer: true;"
+      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+      embedded
+    >
+      <a-assets>
+        <a-asset-item
+          id="asset-eevee"
+          src="media/{{image}}"
+        ></a-asset-item>
+      </a-assets>
+
+      <a-entity
+        name="Example"
+        gltf-model="#asset-eevee"
+        scale="{{size}} {{size}} {{size}}"
+        gps-entity-place="latitude: {{latitude}}; longitude: {{longitude}};"
+      ></a-entity>
+
+      <a-camera gps-camera rotation-reader></a-camera>
+    </a-scene>
+  </body>
+</html>

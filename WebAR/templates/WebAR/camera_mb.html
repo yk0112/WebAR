@@ -20,7 +20,7 @@
             gesture-detector
         >
             <a-assets>
-                <a-asset-item
+                <a-asset-item 
                     id="animated-asset"
                     src="media/{{image}}"
             ></a-asset-item>
@@ -30,7 +30,7 @@
                 id="animated-marker"
                 type="pattern"
                 preset="custom"
-                url="media/uploads/2023/06/14/marker.patt"
+                url="{% static 'WebAR/marker.patt' %}"
                 raycaster="objects: .clickable"
                 emitevents="true"
                 cursor="fuse: false; rayOrigin: mouse;"
@@ -48,6 +48,11 @@
 
             <a-entity camera></a-entity>
         </a-scene>
+
     </body>
       
 </html>
+ 
+
+ 
+

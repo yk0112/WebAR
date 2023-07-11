@@ -2,18 +2,15 @@ var innerImageURL = null
 var fullMarkerURL = null
 
 document.querySelector('#fileinput').addEventListener('change', function(){
-       var file = this.files[0];
+      var file = this.files[0];
       imageName = file.name
-      // remove file extension
       imageName = imageName.substring(0, imageName.lastIndexOf('.')) || imageName
   
-      // debugger
-
       var reader = new FileReader();
       reader.onload = function(event){
           innerImageURL = event.target.result
           updateFullMarkerImage()
-    generatPattURL()
+          generatPattURL()
       };
      reader.readAsDataURL(file);
   })
@@ -71,9 +68,9 @@ function generatPattURL() {
    var image = new Image;
  image.onload = function() {
   var patternFileString = THREEx.ArPatternFile.encodeImage(image);
-  var domElement = window.document.createElement('a');
-  domElement.href = window.URL.createObjectURL(new Blob([patternFileString], {type: 'text/plain'}));
-  document.getElementById('pattURL').value = domElement.href;
+  // var domElement = window.document.createElement('a');
+  // domElement.href = window.URL.createObjectURL(new Blob([patternFileString], {type: 'text/plain'}));
+  document.getElementById('patt').value = patternFileString;
  }
  image.src = innerImageURL;
 }
