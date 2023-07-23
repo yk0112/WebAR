@@ -1,6 +1,7 @@
 var innerImageURL = null
 var fullMarkerURL = null
 
+
 document.querySelector('#fileinput').addEventListener('change', function(){
       var file = this.files[0];
       imageName = file.name
@@ -50,7 +51,10 @@ function updateFullMarkerImage(){
 
       var fullMarkerImage = document.createElement('img')
       fullMarkerImage.src = fullMarkerURL
-
+      var markerImage = document.getElementById('marker-image')
+      markerImage.src = fullMarkerURL;
+      var status = document.getElementById('marker-image-status')
+      status.style.display = "none";
       // put fullMarkerImage into #imageContainer
       var container = document.querySelector('#imageContainer')
       while (container.firstChild) container.removeChild(container.firstChild);
@@ -74,3 +78,8 @@ function generatPattURL() {
  }
  image.src = innerImageURL;
 }
+
+document.querySelector('#form-range').addEventListener('change', function () {
+  var p = document.getElementById('form-range').value;
+  document.getElementById('scale_value').textContent = p;
+})

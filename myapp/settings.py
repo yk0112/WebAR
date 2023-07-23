@@ -130,3 +130,9 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert alert-warning',
     messages.ERROR: 'alert alert-danger',
 }
+
+#login
+LOGIN_URL = '/login' 
+LOGIN_REDIRECT_URL = '/WebAR/markerbase'
+LOGOUT_REDIRECT_URL='/login'
+

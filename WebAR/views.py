@@ -9,108 +9,169 @@ from django.contrib import messages
 from .forms import AddImageForm, ImageSelectForm
 from .models import Image
 
-# Create your views here.
+
 def login(request):
-   return render(request, 'WebAR/login')
+    return render(request, "WebAR/login")
+
 
 def camera_mb(request):
-   return render(request, 'WebAR/camera_mb.html')
+    return render(request, "WebAR/camera_mb.html")
+
 
 def camera_lb(request):
-   return render(request, 'WebAR/camera_lb.html')
+    return render(request, "WebAR/camera_lb.html")
 
-@login_required(login_url='/admin/login')
+
+@login_required(login_url="/admin/login")
 def mb(request):
-   if(request.method == 'POST'): 
-      if(request.POST.get('patt') == ""):
-         messages.add_message(request, messages.ERROR, "マーカーを選択してください")
-         return redirect(to='./markerbase')
-      else:
-        f = open('WebAR/static/WebAR/marker.patt', 'w')
-        f.write(request.POST.get('patt'))
+    if request.method == "POST":
+        if request.POST.get("patt") == "":
+            messages.add_message(request, messages.ERROR, "Please select a marker")
+            return redirect(to="./markerbase")
+        else:
+            f = open("WebAR/static/WebAR/marker.patt", "w")
+            f.write(request.POST.get("patt"))
+            image = request.POST.get("image1")
+            scale = request.POST.get("size")
+            target = Image.objects.filter(image=image)
+            size = str(float(target[0].size) * float(scale))
+            params = {
+                "username": request.user.username,
+                "image": image,
+                "size": size,
+            }
+            return render(request, "WebAR/camera_mb.html", params)
+    else:
         params = {
-         'username': request.user.username, 
-         'image': request.POST.get('image'),
-         'size': request.POST.get('size'),
+            "username": request.user.username,
+            "form": ImageSelectForm(request.user),
         }
-        return render(request, 'WebAR/camera_face.html', params)
-   else:
-      params = {
-       'username': request.user.username, 
-       'form': ImageSelectForm(request.user), 
-      }         
-      return render(request, 'WebAR/mb.html', params)
+        return render(request, "WebAR/mb.html", params)
 
-@login_required(login_url='/admin/login')
-def lb(request):      
-   if(request.method == 'POST'):
-      if(request.POST.get('latitude') == ""):
-         messages.add_message(request, messages.ERROR, "緯度を入力してください")
-         return redirect(to='./locationbase')
-      
-      elif(request.POST.get('longitude') == ""):
-         messages.add_message(request, messages.ERROR, "経度を入力してください")
-         return redirect(to='./locationbase')
-      else:
+
+@login_required(login_url="/admin/login")
+def lb(request):
+    if request.method == "POST":
+        if request.POST.get("latitude") == "":
+            messages.add_message(
+                request, messages.ERROR, "Please enter a latitude value"
+            )
+            return redirect(to="./locationbase")
+
+        elif request.POST.get("longitude") == "":
+            messages.add_message(
+                request, messages.ERROR, "Please enter a longitude value"
+            )
+            return redirect(to="./locationbase")
+        else:
+            image = request.POST.get("image1")
+            scale = request.POST.get("size")
+            target = Image.objects.filter(image=image)
+            size = str(float(target[0].size) * float(scale))
+            params = {
+                "image": image,
+                "latitude": request.POST.get("latitude"),
+                "longitude": request.POST.get("longitude"),
+                "size": size,
+            }
+            return render(request, "WebAR/camera_lb.html", params)
+    else:
         params = {
-         'image': request.POST.get('image'),
-         'latitude': request.POST.get('latitude'), 
-         'longitude': request.POST.get('longitude'),
-         'size': request.POST.get('size'),
+            "username": request.user.username,
+            "form": ImageSelectForm(request.user),
+            "API_KEY": GOOGLEMAP_API_KEY,
         }
-        return render(request, 'WebAR/camera_lb.html', params)
-   else:
-      params = {
-       'username': request.user.username, 
-       'form': ImageSelectForm(request.user), 
-       'API_KEY': GOOGLEMAP_API_KEY
-      }         
-      return render(request, 'WebAR/lb.html', params)
-   
-
-@login_required(login_url='/admin/login')
-def face(request):    
-   params = {
-       'username': request.user.username, 
-       'form1': ImageSelectForm(request.user), 
-       'form2': ImageSelectForm(request.user), 
-       'form3': ImageSelectForm(request.user), 
-       'form4': ImageSelectForm(request.user), 
-       'form5': ImageSelectForm(request.user), 
-      }   
-   return render(request, 'WebAR/face.html', params);   
+        return render(request, "WebAR/lb.html", params)
 
 
-@login_required(login_url='/admin/login')
+@login_required(login_url="/admin/login")
+def face(request):
+    if request.method == "POST":
+        Itemcount = int(request.POST.get("item_count"))
+        form_list = []
+        for i in range(Itemcount):
+            index = i
+            image = request.POST.get("image" + str(i + 1))
+            anchor = request.POST.get("item" + str(i + 1) + "_anchor")
+            rotateX = request.POST.get("item" + str(i + 1) + "_rotateX")
+            rotateY = request.POST.get("item" + str(i + 1) + "_rotateY")
+            rotateZ = request.POST.get("item" + str(i + 1) + "_rotateZ")
+            positionX = request.POST.get("item" + str(i + 1) + "_positionX")
+            positionY = request.POST.get("item" + str(i + 1) + "_positionY")
+            positionZ = request.POST.get("item" + str(i + 1) + "_positionZ")
+            scale = request.POST.get("item" + str(i + 1) + "_scale")
+            target = Image.objects.filter(image=image)
+            nickname = target[0].nickname
+            size = str(float(target[0].size) * float(scale))
+            if i < Itemcount and not (
+                str.isdigit(rotateX)
+                and str.isdigit(rotateY)
+                and str.isdigit(rotateZ)
+                and str.isdigit(anchor)
+            ):
+                messages.add_message(
+                    request, messages.ERROR, "Enter a number for Rotation"
+                )
+                return redirect(to="./face")
+            form_list.append(
+                {
+                    "index": index,
+                    "image": image,
+                    "anchor": anchor,
+                    "rotateX": rotateX,
+                    "rotateY": rotateY,
+                    "rotateZ": rotateZ,
+                    "positionX": positionX,
+                    "positionY": positionY,
+                    "positionZ": positionZ,
+                    "scale": size,
+                    "nickname": nickname,
+                }
+            )
+        params = {"form_list": form_list, "count": Itemcount}
+        return render(request, "WebAR/camera_face.html", params)
+    else:
+        params = {
+            "username": request.user.username,
+            "form": ImageSelectForm(request.user),
+        }
+        return render(request, "WebAR/face.html", params)
+
+
+@login_required(login_url="/admin/login")
 def add(request):
-   ins = Image(owner=request.user)
-   if request.method == 'POST':
-      ImageForm = AddImageForm(request.POST,request.FILES,instance=ins)
-      if ImageForm.is_valid():
-         messages.add_message(request, messages.SUCCESS, "登録完了しました！")
-         ImageForm.save()
-         return redirect(to='./add')
-      else:
-         messages.add_message(request, messages.ERROR, "登録に失敗しました")
-         return redirect(to='./add')
-   params = {
-      'username': request.user.username, 
-      'owner': request.user,
-      'form': AddImageForm(instance=ins) 
-   }   
-   return render(request, 'WebAR/add.html', params)
+    ins = Image(owner=request.user)
+    if request.method == "POST":
+        ImageForm = AddImageForm(request.POST, request.FILES, instance=ins)
+        if ImageForm.is_valid():
+            messages.add_message(
+                request, messages.SUCCESS, "Your registration is complete!"
+            )
+            ImageForm.save()
+            return redirect(to="./add")
+        else:
+            messages.add_message(
+                request, messages.ERROR, "Your registration is failed."
+            )
+            return redirect(to="./add")
+    params = {
+        "username": request.user.username,
+        "owner": request.user,
+        "form": AddImageForm(instance=ins),
+    }
+    return render(request, "WebAR/add.html", params)
 
-@login_required(login_url='/admin/login')
+
+@login_required(login_url="/admin/login")
 def delete(request):
-   if(request.method == 'POST'):
-      imgName = request.POST.get('image')
-      print(imgName)
-      Image.objects.filter(image=imgName).delete()
-      messages.add_message(request, messages.SUCCESS, "削除しました!")
-      return redirect(to='./delete')
-   params = {
-      'username': request.user.username, 
-      'owner': request.user,
-      'form': ImageSelectForm(request.user), 
-   }   
-   return render(request, 'WebAR/delete.html', params)
+    if request.method == "POST":
+        imgName = request.POST.get("image1")
+        Image.objects.filter(image=imgName).delete()
+        messages.add_message(request, messages.SUCCESS, "Deletion completed!")
+        return redirect(to="./delete")
+    params = {
+        "username": request.user.username,
+        "owner": request.user,
+        "form": ImageSelectForm(request.user),
+    }
+    return render(request, "WebAR/delete.html", params)

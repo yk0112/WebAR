@@ -10,6 +10,11 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{% static 'WebAR/css/style.css' %}" />
   <script src='../../static/WebAR/js/threex-arpatternfile.js'></script>
+  <script>
+    window.addEventListener('pageshow', () => {
+      if (window.performance.navigation.type == 2) location.reload();
+    });
+  </script>
 </head>
 
 <body>
@@ -68,16 +73,17 @@
         <div class="card rounded-3 shadow">
           <div class="card-body">
             <h5 class="card-title text-dark">Step 1</h5>
-            <p class="card-text text-secondary">Please select a 3D image in your collections</p>
-            {{form.image | add_class:"form-select form-control"}}
+            <p class="card-text text-secondary">Select a 3D image in your collections</p>
+            {{form.image1 | add_class:"form-select form-control"}}
           </div>
         </div>
 
         <div class="card rounded-3 shadow">
           <div class="card-body">
             <h5 class="card-title text-dark">Step 2</h5>
-            <p class="card-text text-secondary">Specify the size of the image to display</p>
-            <input type="range" class="form-range" min="1" max="5" step="0.5" name="size">
+            <p class="card-text text-secondary">Specify the scale of the 3D image to be displayed</p>
+            <span id="scale_value">1</span> <input type="range" id="form-range" class="form-range range-cust" min="0"
+              max="5" value="1" step="0.1" name="size">
           </div>
         </div>
 
@@ -87,7 +93,6 @@
             <p class="card-text text-secondary">Upload the image you want to use as a marker. Then download the
               generated marker.</p>
             <input id="fileinput" type="file" class="form-control" name="file" style="margin-right: 20px"> <br>
-            <!-- <a href="#" id='buttonDownloadFullImage' class="btn btn-primary">DOWNLOAD</a> -->
             <button type="button" id='buttonDownloadFullImage' class="btn btn-primary">DOWNLOAD</button>
           </div>
         </div>
@@ -103,9 +108,9 @@
       </div>
   </form>
 
-  <div class="img-fluid w-40 h-50" style="margin-top: 100px; margin-left: 150px;">
-    <img src="https://thumb.ac-illust.com/73/7387030e5a5600726e5309496353969a_t.jpeg" class="img-fluid" alt="...">
-    <p class="text-secondary">You have not selected an image</p>
+  <div class="img-fluid w-40 h-50" style="position: relative; top: 150px; left: 100px;">
+    <img src="../../static/WebAR/image/noimage.png" class="img-fluid" id="marker-image" alt="..." border="5px" style="width: 60%;">
+    <p class="text-secondary" id="marker-image-status">You have not selected an image</p>
   </div>
 
 
@@ -119,6 +124,27 @@
   .form-control:focus {
     border-color: #ff1493;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #ff1493;
-   }
+  }
+
+  .range-cust::-webkit-slider-thumb {
+    outline: none;
+    background: #ff1493;
+  }
+
+  .range-cust::-moz-range-thumb {
+    outline: none;
+    background: #ff1493;
+  }
+
+  .range-cust::-ms-thumb {
+    outline: none;
+    background: #ff1493;
+  }
+
+  .range-cust::-ms-thumb {
+    outline: none;
+    background: #ff1493;
+  }
 </style>
+
 </html>

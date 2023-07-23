@@ -31,7 +31,7 @@ document.querySelector('#latitude').addEventListener('change', function(){
    const lat = document.getElementById('latitude').value;
    const lng = document.getElementById('longitude').value;
    if (isNaN(lat) || isNaN(lng)) {
-           alert("正しい緯度と経度を入力してください。");
+           alert("Enter the correct latitude and longitude values.");
            return;
    }
    MyLatLng = new google.maps.LatLng(lat, lng);
@@ -47,7 +47,7 @@ document.querySelector('#longitude').addEventListener('change', function(){
    const lat = document.getElementById('latitude').value;
    const lng = document.getElementById('longitude').value;
    if (isNaN(lat) || isNaN(lng)) {
-           alert("正しい緯度と経度を入力してください。");
+           alert("Enter the correct latitude and longitude values.");
            return;
     }
    MyLatLng = new google.maps.LatLng(lat, lng);
@@ -56,4 +56,9 @@ document.querySelector('#longitude').addEventListener('change', function(){
    position: MyLatLng,
    map: map
 });
+})
+
+document.querySelector('#form-range').addEventListener('change', function () {
+  var p = document.getElementById('form-range').value;
+  document.getElementById('scale_value').textContent = p;
 })

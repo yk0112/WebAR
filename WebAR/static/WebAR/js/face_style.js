@@ -23,7 +23,7 @@ document.querySelector('#add-item').addEventListener('click', function () {
         document.getElementById('item_count').value = "5";
         break;
       case "5":
-        alert("これ以上3Dイメージを追加出来ません");
+        alert("No more 3D images can be added.");
         break;
     };
 
@@ -35,7 +35,7 @@ document.querySelector('#add-item').addEventListener('click', function () {
     var cssText;
     switch (item_count) {
       case "1":
-        alert("これ以上削除できません");
+        alert("Cannot delete any more");
         break;
       case "2":
         item = document.getElementById('item2');
