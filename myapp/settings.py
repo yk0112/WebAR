@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 SECRET_KEY='django-insecure-u%)@v!6qr7di-nwo*@7u6yny@z3^=*=_^etvx(5sx6w^4ij9r&'
-GOOGLEMAP_API_KEY='AIzaSyAmDjN0Pu_ty8jL2EY3qfX4HST-zKw_Gj0'
+
 
 
 
@@ -114,6 +114,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+DEBUG = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -145,8 +146,7 @@ LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/WebAR/markerbase'
 LOGOUT_REDIRECT_URL='/login'
 
-SUPERUSER_NAME=env("SUPERUSER_NAME")
-SUPERUSER_EMAIL=env("SUPERUSER_EMAIL")
-SUPERUSER_PASSWORD=env("SUPERUSER_PASSWORD")
+SUPERUSER_NAME = os.getenv('SUPERUSER_NAME')
+SUPERUSER_EMAIL = os.getenv('SUPERUSER_EMAIL')
+SUPERUSER_PASSWORD = os.getenv('SUPERUSER_PASSWORD')
 
-from .local_settings import *
