@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from django.contrib import messages
-from .local_settings import *
 import environ
 from dj_database_url import parse as dburl
 from decouple import config
@@ -149,3 +148,4 @@ SUPERUSER_NAME = env("SUPERUSER_NAME")
 SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
 SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
 
+from .local_settings import *
