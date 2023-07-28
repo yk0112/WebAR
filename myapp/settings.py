@@ -26,9 +26,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 
-GOOGLEMAP_API_KEY='AIzaSyAmDjN0Pu_ty8jL2EY3qfX4HST-zKw_Gj0'
-SECRET_KEY='django-insecure-u%)@v!6qr7di-nwo*@7u6yny@z3^=*=_^etvx(5sx6w^4ij9r&'
-
 # Application definition
 
 INSTALLED_APPS = [
