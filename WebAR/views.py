@@ -1,6 +1,5 @@
 import sys
 import json
-from myapp.local_settings import *
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -80,7 +79,7 @@ def lb(request):
         params = {
             "username": request.user.username,
             "form": ImageSelectForm(request.user),
-            "API_KEY": GOOGLEMAP_API_KEY,
+            "API_KEY": "apikey",
         }
         return render(request, "WebAR/lb.html", params)
 
