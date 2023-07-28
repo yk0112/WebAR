@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp.settings',
     'WebAR',
-    'accounts',
-    'mysite'
+    'accounts'
 ]
 
 MIDDLEWARE = [
