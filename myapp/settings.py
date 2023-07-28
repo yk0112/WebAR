@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'myapp.settings',
     'WebAR',
     'accounts',
+    'mysite'
 ]
 
 MIDDLEWARE = [
