@@ -16,6 +16,7 @@ import environ
 from dj_database_url import parse as dburl
 from decouple import config
 import os
+from .local_settings import *
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-SECRET_KEY='django-insecure-u%)@v!6qr7di-nwo*@7u6yny@z3^=*=_^etvx(5sx6w^4ij9r&'
 
-GOOGLEMAP_API_KEY='AIzaSyAmDjN0Pu_ty8jL2EY3qfX4HST-zKw_Gj0'
+
+
 # Application definition
 
 INSTALLED_APPS = [

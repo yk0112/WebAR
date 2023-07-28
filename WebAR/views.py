@@ -10,6 +10,7 @@ from .forms import AddImageForm, ImageSelectForm
 from .models import Image
 
 
+
 def login(request):
     return render(request, "WebAR/login")
 
