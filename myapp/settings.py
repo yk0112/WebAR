@@ -143,9 +143,9 @@ env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env"))
 
 #login
-LOGIN_URL = '/login' 
+LOGIN_URL = '/' 
 LOGIN_REDIRECT_URL = '/WebAR/markerbase'
-LOGOUT_REDIRECT_URL='/login'
+LOGOUT_REDIRECT_URL='/'
 
 SUPERUSER_NAME = os.getenv('SUPERUSER_NAME')
 SUPERUSER_EMAIL = os.getenv('SUPERUSER_EMAIL')

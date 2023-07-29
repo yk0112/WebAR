@@ -18,17 +18,6 @@ class Logout(LoginRequiredMixin, LogoutView):
     """ログアウトページ"""
     template_name = 'accounts/login.html'
 
-# class Register(CreateView):
-#     template_name = 'accounts/register.html'
-#     form_class = registerForm
-#     success_url = reverse_lazy('.')
-#     # validator
-#     def form_valid(self, form):
-#         user = form.save() 
-#         login(self.request, user) 
-#         self.object = user 
-#         return redirect(to=self.get_success_url()) 
-
 
 def register(request):
     if request.method == 'POST':

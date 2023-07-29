@@ -10,9 +10,6 @@ from .models import Image
 
 
 
-def login(request):
-    return render(request, "WebAR/login")
-
 
 def camera_mb(request):
     return render(request, "WebAR/camera_mb.html")
@@ -22,7 +19,7 @@ def camera_lb(request):
     return render(request, "WebAR/camera_lb.html")
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/")
 def mb(request):
     if request.method == "POST":
         if request.POST.get("patt") == "":
@@ -49,7 +46,7 @@ def mb(request):
         return render(request, "WebAR/mb.html", params)
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/")
 def lb(request):
     if request.method == "POST":
         if request.POST.get("latitude") == "":
@@ -84,7 +81,7 @@ def lb(request):
         return render(request, "WebAR/lb.html", params)
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/")
 def face(request):
     if request.method == "POST":
         Itemcount = int(request.POST.get("item_count"))
@@ -138,7 +135,7 @@ def face(request):
         return render(request, "WebAR/face.html", params)
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/")
 def add(request):
     ins = Image(owner=request.user)
     if request.method == "POST":
@@ -162,7 +159,7 @@ def add(request):
     return render(request, "WebAR/add.html", params)
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/")
 def delete(request):
     if request.method == "POST":
         imgName = request.POST.get("image1")
