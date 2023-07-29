@@ -9,7 +9,6 @@ class LoginForm(AuthenticationForm):
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label   
 
-
 class registerForm(UserCreationForm):
     """sign up form"""
     def __init__(self, *args, **kwargs):
