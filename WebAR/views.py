@@ -80,7 +80,6 @@ def lb(request):
         }
         return render(request, "WebAR/lb.html", params)
 
-
 @login_required(login_url="/")
 def face(request):
     if request.method == "POST":
