@@ -109,8 +109,6 @@ MESSAGE_TAGS = {
     messages.ERROR: "alert alert-danger",
 }
 
-# env = environ.Env()
-# env.read_env(os.path.join(BASE_DIR, ".env"))
 
 load_dotenv()
 
@@ -122,4 +120,4 @@ LOGOUT_REDIRECT_URL = "/"
 SUPERUSER_NAME = os.getenv("SUPERUSER_NAME")
 SUPERUSER_EMAIL = os.getenv("SUPERUSER_EMAIL")
 SUPERUSER_PASSWORD = os.getenv("SUPERUSER_PASSWORD")
-# SECRET_KEY = os.getenv("SECREST_KEY")
+SECRET_KEY = os.getenv("SECREST_KEY")
