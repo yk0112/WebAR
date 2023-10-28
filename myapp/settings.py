@@ -5,6 +5,7 @@ import environ
 from decouple import config
 from dj_database_url import parse as dburl
 from django.contrib import messages
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -107,8 +108,10 @@ MESSAGE_TAGS = {
     messages.ERROR: "alert alert-danger",
 }
 
-env = environ.Env()
-env.read_env(os.path.join(BASE_DIR, ".env"))
+# env = environ.Env()
+# env.read_env(os.path.join(BASE_DIR, ".env"))
+
+dotenv.load_dotenv()
 
 # login
 LOGIN_URL = "/"
