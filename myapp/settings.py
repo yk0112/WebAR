@@ -111,7 +111,7 @@ MESSAGE_TAGS = {
 # env = environ.Env()
 # env.read_env(os.path.join(BASE_DIR, ".env"))
 
-dotenv.load_dotenv()
+load_dotenv()
 
 # login
 LOGIN_URL = "/"
