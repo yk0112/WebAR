@@ -53,6 +53,7 @@ TEMPLATES = [
     },
 ]
 
+SECRET_KEY = ""
 
 WSGI_APPLICATION = "myapp.wsgi.application"
 
