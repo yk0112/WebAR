@@ -1,4 +1,6 @@
 # WebAR
+[![pages-build-deployment](https://github.com/yk0112/WebAR/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/yk0112/WebAR/actions/workflows/pages/pages-build-deployment)
+
 This is a web application that makes AR experience easy. 
 This app was developed using AR.js (https://ar-js-org.github.io/AR.js-Docs/).
 
