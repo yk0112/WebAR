@@ -5,7 +5,7 @@ This is a web application that makes AR experience easy.
 This app was developed using AR.js (https://ar-js-org.github.io/AR.js-Docs/).
 
 Try it: https://webar-ozcj.onrender.com
-(It will take a while to load)
+
 
 <img width="1503" alt="スクリーンショット 2023-10-30 1 14 36" src="https://github.com/yk0112/WebAR/assets/130746469/15cb7388-70f7-430c-9aeb-3b830e27f89a">
 
